@@ -1,0 +1,9 @@
+<tr>
+	<th>{{publisher.name}}</th>
+	<td>
+		{% for book in books %}
+			{{book.title}}
+			{% if not forloop.last %} , {% endif %}
+		{% endfor %}
+	</td>
+</tr>
