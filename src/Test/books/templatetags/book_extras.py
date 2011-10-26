@@ -12,3 +12,7 @@ def building_result_list(publisher_id,book_id):
         'books' : books,
         'publisher' : publisher
     }
+@register.filter(name='book')
+def book(books, arg):
+    book = books[int(arg)]
+    return book
