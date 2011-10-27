@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', getBooks),
     url(r'^book/', include('Test.books.urls')),
+    url(r'^member/', include('Test.member.urls')),
 )
 
