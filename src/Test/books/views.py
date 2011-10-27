@@ -20,6 +20,8 @@ def getAuthorJson(request):
         author["id"] = a.id
         author["salutation"] = a.salutation
         author["name"] = a.first_name + ' ' + a.last_name
+#        author["name"] = a.get_full_name()
+#        author["name"] = a.fullname
         author["email"] = a.email
         li.append(author)
     json = simplejson.dumps(li)  

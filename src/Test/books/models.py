@@ -16,6 +16,9 @@ class Author(models.Model):
     email = models.EmailField()
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
+    def get_full_name(self):
+        return u'%s %s' % (self.first_name, self.last_name)
+    fullname = property(get_full_name)
     
 class BookManager(models.Manager):
     def title_count(self,keyword):
