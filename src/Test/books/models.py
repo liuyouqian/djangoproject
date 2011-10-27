@@ -16,16 +16,19 @@ class Author(models.Model):
     email = models.EmailField()
     def __str__(self):
         return '%s %s' % (self.first_name, self.last_name)
-
+    
+class BookManager(models.Manager):
+    def title_count(self,keyword):
+        return self.filter(title__icontains = keyword).count()
+    
 class Book(models.Model):
     title = models.CharField(max_length=100)
     authors = models.ManyToManyField(Author)
     publisher = models.ForeignKey(Publisher)
     publication_date = models.DateField()
+    objects = BookManager()
     def __str__(self):
         return self.title
     def save(self, force_insert=False, force_update=False, using=None):
         models.Model.save(self, force_insert=force_insert, force_update=force_update, using=using)
-    
-
-
+        

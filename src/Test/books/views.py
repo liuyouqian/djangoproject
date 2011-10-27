@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 def getBooks(request):
     books = Book.objects.all()
+    print Book.objects.title_count('book')
     return render_to_response('books.html', {'books': books})
 
     
