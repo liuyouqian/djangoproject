@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 from django.contrib import admin
-from Test.books.models import Publisher, Author, Book
-from Test.books.forms import BookForm
+from books.models import Publisher, Author, Book
+from books.forms import BookForm
 class BookAdmin(admin.ModelAdmin):
     form = BookForm
    # radio_fields = {"publisher": admin.VERTICAL}

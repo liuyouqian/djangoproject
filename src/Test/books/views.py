@@ -4,10 +4,34 @@ from django.utils import simplejson
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, InvalidPage,\
+    PageNotAnInteger
 def getBooks(request):
     books = Book.objects.all()
-    print Book.objects.title_count('book')
-    return render_to_response('books.html', {'books': books})
+    #print Book.objects.title_count('book')
+    after_range_num = 3  
+    bevor_range_num = 3
+    try:  
+        page = int(request.GET.get("page",1))  
+        print('page----->',page)  
+        if page < 1:  
+            page = 1  
+    except ValueError:  
+        page = 1  
+      
+    info = Book.objects.all()  
+    paginator = Paginator(info,1)  
+    try:  
+        bookList = paginator.page(page)  
+    except(EmptyPage,InvalidPage,PageNotAnInteger):  
+        bookList = paginator.page(1)  
+    print('bookList---->',bookList.object_list)  
+    if page >= after_range_num:  
+        page_range = paginator.page_range[page-after_range_num:page+bevor_range_num]  
+    else:  
+        page_range = paginator.page_range[0:int(page)+bevor_range_num]  
+    
+    return render_to_response('books.html', locals())
 
     
 @csrf_exempt 

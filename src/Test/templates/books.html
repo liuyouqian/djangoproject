@@ -35,6 +35,44 @@
 		{% endfor %}
 	</table>
 	{{books|book:"2"}}
+	
+	</br>
+	</br>
+	
+	
+	
+	
+	{% if info %}  
+	    {% for book in bookList.object_list %}  
+	        <div class="book">  
+	            <div class="title">{{ book.title }}</div>  
+	        </div>  
+	    {% endfor %}  
+	{% else %}  
+	    <p>对不起没有文章奥!</p>  
+	{% endif %}  
+	<hr>  
+	{% if has_previous %}  
+	    <a href="/?page={{ previous }}">上一页</a>  
+	{% endif %}  
+	{% if has_next %}  
+	    <a href="/?page={{ next }}"></a>  
+	{% endif %}  
+	<hr>  
+	{% if bookList.has_previous %}  
+	<a href="?page={{ bookList.previous_page_number }}" title="下一页">上一页</a>&nbsp;  
+	{% endif %}  
+	{% for p in page_range %}  
+	{% ifequal p bookList.number %}  
+	<span>{{p}}</span>  
+	{% else %}  
+	<a href="?page={{p}}" title="第{{p}}页">{{p}}</a>  
+	{% endifequal %}  
+	{% endfor %}  
+	&nbsp;  
+	{% if bookList.has_next %}  
+	<a href="?page={{ bookList.next_page_number }}" title="下一页">下一页</a>&nbsp;  
+	{% endif %} 
 </body>
 <script type="text/javascript" src="/static/js/jquery-1.6.4.js"></script>
 <script>
