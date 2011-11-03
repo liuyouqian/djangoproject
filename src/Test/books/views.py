@@ -1,11 +1,19 @@
 # Create your views here.
-from books.models import Book
+from books.models import Book, Publisher, Author
 from django.utils import simplejson
 from django.shortcuts import render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, InvalidPage,\
     PageNotAnInteger
+from django import forms
+from django.forms.extras.widgets import SelectDateWidget
+
+class BookForm(forms.Form):
+    title = forms.CharField()
+    authors = forms.ModelMultipleChoiceField(queryset = Author.objects.all())
+    publisher = forms.ModelChoiceField(queryset = Publisher.objects.all())
+    publication_date = forms.DateField()
 def getBooks(request):
     books = Book.objects.all()
     #print Book.objects.title_count('book')
@@ -32,8 +40,27 @@ def getBooks(request):
     if page >= after_range_num:  
         page_range = paginator.page_range[page-after_range_num:page+bevor_range_num]  
     else:  
-        page_range = paginator.page_range[0:int(page)+bevor_range_num]  
-    
+        page_range = paginator.page_range[0:int(page)+bevor_range_num] 
+        
+        
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+        if form.is_valid():
+            obj = form.cleaned_data
+            title = obj['title']
+            authors = obj['authors']
+            publisher = obj['publisher']
+            publication_date = obj['publication_date']
+            book = Book(title=title,publisher=publisher,publication_date=publication_date)
+            book.save()
+            for author in authors:
+                print author
+                book.authors.add(author)
+            book.save()
+            return HttpResponseRedirect('/')
+    else:    
+        form = BookForm()
+        
     return render_to_response('books.html', locals())
 
     
@@ -53,4 +80,3 @@ def getAuthorJson(request):
         li.append(author)
     json = simplejson.dumps(li)  
     return HttpResponse(json)
-    

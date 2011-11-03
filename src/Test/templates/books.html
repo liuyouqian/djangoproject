@@ -67,9 +67,33 @@
 	{% if bookList.has_next %}  
 		<a href="?page={{ bookList.next_page_number }}" title="下一页">下一页</a>&nbsp;  
 	{% endif %} 
+	
+	</br>
+	</br>
+	
+	
+	
+	{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post">{% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="Submit">
+    </form>
+    
+    
+    
 </body>
 <script type="text/javascript" src="/static/js/jquery-1.6.4.js"></script>
+<script language="javascript" type="text/javascript" src="/static/js/time/WdatePicker.js"></script>
 <script>
+$("#id_publication_date").addClass("Wdate");
+$("#id_publication_date").attr("onClick","WdatePicker()");
 function getAuthors(bookId){
 	$.ajax({
 	    type: "POST",
