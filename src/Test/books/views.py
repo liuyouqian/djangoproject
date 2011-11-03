@@ -9,6 +9,9 @@ from django.core.paginator import Paginator, EmptyPage, InvalidPage,\
 def getBooks(request):
     books = Book.objects.all()
     #print Book.objects.title_count('book')
+    u'''
+    page_range,
+    '''
     after_range_num = 3  
     bevor_range_num = 3
     try:  
